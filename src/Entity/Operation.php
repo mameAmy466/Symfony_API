@@ -17,24 +17,24 @@ class Operation
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
-    private $date;
+    private $Date;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $montan;
+    private $monaant;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Partenaire", inversedBy="operations")
      */
-    private $partenair;
+    private $partenaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Compte", inversedBy="operations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\compte", inversedBy="operations")
      */
-    private $compte;
+    private $compt;
 
     public function getId(): ?int
     {
@@ -43,48 +43,48 @@ class Operation
 
     public function getDate(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->Date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $Date): self
     {
-        $this->date = $date;
+        $this->Date = $Date;
 
         return $this;
     }
 
-    public function getMontan(): ?float
+    public function getMonaant(): ?float
     {
-        return $this->montan;
+        return $this->monaant;
     }
 
-    public function setMontan(float $montan): self
+    public function setMonaant(float $monaant): self
     {
-        $this->montan = $montan;
+        $this->monaant = $monaant;
 
         return $this;
     }
 
-    public function getPartenair(): ?Partenaire
+    public function getPartenaire(): ?Partenaire
     {
-        return $this->partenair;
+        return $this->partenaire;
     }
 
-    public function setPartenair(?Partenaire $partenair): self
+    public function setPartenaire(?Partenaire $partenaire): self
     {
-        $this->partenair = $partenair;
+        $this->partenaire = $partenaire;
 
         return $this;
     }
 
-    public function getCompte(): ?Compte
+    public function getCompt(): ?compte
     {
-        return $this->compte;
+        return $this->compt;
     }
 
-    public function setCompte(?Compte $compte): self
+    public function setCompt(?compte $compt): self
     {
-        $this->compte = $compte;
+        $this->compt = $compt;
 
         return $this;
     }

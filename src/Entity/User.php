@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"username"}, message="Cet utilisateur existe déjà")
  */
 class User implements UserInterface
 {
@@ -38,12 +38,22 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nom;
+    private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $prenom;
+    private $nom;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Partenaire", inversedBy="users")
+     */
+    private $partenaire;
+
+    public function __construct()
+    {
+        $this->partenaire = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -118,6 +128,18 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
     public function getNom(): ?string
     {
         return $this->nom;
@@ -130,14 +152,28 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPrenom(): ?string
+    /**
+     * @return Collection|Partenaire[]
+     */
+    public function getPartenaire(): Collection
     {
-        return $this->prenom;
+        return $this->partenaire;
     }
 
-    public function setPrenom(string $prenom): self
+    public function addPartenaire(Partenaire $partenaire): self
     {
-        $this->prenom = $prenom;
+        if (!$this->partenaire->contains($partenaire)) {
+            $this->partenaire[] = $partenaire;
+        }
+
+        return $this;
+    }
+
+    public function removePartenaire(Partenaire $partenaire): self
+    {
+        if ($this->partenaire->contains($partenaire)) {
+            $this->partenaire->removeElement($partenaire);
+        }
 
         return $this;
     }

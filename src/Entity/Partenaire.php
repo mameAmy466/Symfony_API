@@ -21,7 +21,7 @@ class Partenaire
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $numero;
+    private $mat;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -31,21 +31,27 @@ class Partenaire
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Rs;
+    private $RS;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $rc;
+    private $RC;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operation", mappedBy="partenair")
+     * @ORM\OneToMany(targetEntity="App\Entity\Operation", mappedBy="partenaire")
      */
     private $operations;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="partenaire")
+     */
+    private $users;
 
     public function __construct()
     {
         $this->operations = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,14 +59,14 @@ class Partenaire
         return $this->id;
     }
 
-    public function getNumero(): ?string
+    public function getMat(): ?string
     {
-        return $this->numero;
+        return $this->mat;
     }
 
-    public function setNumero(string $numero): self
+    public function setMat(string $mat): self
     {
-        $this->numero = $numero;
+        $this->mat = $mat;
 
         return $this;
     }
@@ -77,26 +83,26 @@ class Partenaire
         return $this;
     }
 
-    public function getRs(): ?string
+    public function getRS(): ?string
     {
-        return $this->Rs;
+        return $this->RS;
     }
 
-    public function setRs(string $Rs): self
+    public function setRS(string $RS): self
     {
-        $this->Rs = $Rs;
+        $this->RS = $RS;
 
         return $this;
     }
 
-    public function getRc(): ?string
+    public function getRC(): ?string
     {
-        return $this->rc;
+        return $this->RC;
     }
 
-    public function setRc(string $rc): self
+    public function setRC(string $RC): self
     {
-        $this->rc = $rc;
+        $this->RC = $RC;
 
         return $this;
     }
@@ -113,7 +119,7 @@ class Partenaire
     {
         if (!$this->operations->contains($operation)) {
             $this->operations[] = $operation;
-            $operation->setPartenair($this);
+            $operation->setPartenaire($this);
         }
 
         return $this;
@@ -124,9 +130,37 @@ class Partenaire
         if ($this->operations->contains($operation)) {
             $this->operations->removeElement($operation);
             // set the owning side to null (unless already changed)
-            if ($operation->getPartenair() === $this) {
-                $operation->setPartenair(null);
+            if ($operation->getPartenaire() === $this) {
+                $operation->setPartenaire(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addPartenaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removePartenaire($this);
         }
 
         return $this;

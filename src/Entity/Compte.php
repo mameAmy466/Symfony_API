@@ -26,15 +26,10 @@ class Compte
     /**
      * @ORM\Column(type="float")
      */
-    private $montane;
+    private $montan;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Partenaire", cascade={"persist", "remove"})
-     */
-    private $partenaire;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operation", mappedBy="compte")
+     * @ORM\OneToMany(targetEntity="App\Entity\Operation", mappedBy="compt")
      */
     private $operations;
 
@@ -60,26 +55,14 @@ class Compte
         return $this;
     }
 
-    public function getMontane(): ?float
+    public function getMontan(): ?float
     {
-        return $this->montane;
+        return $this->montan;
     }
 
-    public function setMontane(float $montane): self
+    public function setMontan(float $montan): self
     {
-        $this->montane = $montane;
-
-        return $this;
-    }
-
-    public function getPartenaire(): ?Partenaire
-    {
-        return $this->partenaire;
-    }
-
-    public function setPartenaire(?Partenaire $partenaire): self
-    {
-        $this->partenaire = $partenaire;
+        $this->montan = $montan;
 
         return $this;
     }
@@ -96,7 +79,7 @@ class Compte
     {
         if (!$this->operations->contains($operation)) {
             $this->operations[] = $operation;
-            $operation->setCompte($this);
+            $operation->setCompt($this);
         }
 
         return $this;
@@ -107,8 +90,8 @@ class Compte
         if ($this->operations->contains($operation)) {
             $this->operations->removeElement($operation);
             // set the owning side to null (unless already changed)
-            if ($operation->getCompte() === $this) {
-                $operation->setCompte(null);
+            if ($operation->getCompt() === $this) {
+                $operation->setCompt(null);
             }
         }
 
