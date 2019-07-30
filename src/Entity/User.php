@@ -50,6 +50,11 @@ class User implements UserInterface
      */
     private $partenaire;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $statut;
+
     public function __construct()
     {
         $this->partenaire = new ArrayCollection();
@@ -174,6 +179,18 @@ class User implements UserInterface
         if ($this->partenaire->contains($partenaire)) {
             $this->partenaire->removeElement($partenaire);
         }
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

@@ -48,6 +48,11 @@ class Partenaire
      */
     private $users;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Compte", cascade={"persist", "remove"})
+     */
+    private $numCompte;
+
     public function __construct()
     {
         $this->operations = new ArrayCollection();
@@ -162,6 +167,18 @@ class Partenaire
             $this->users->removeElement($user);
             $user->removePartenaire($this);
         }
+
+        return $this;
+    }
+
+    public function getNumCompte(): ?Compte
+    {
+        return $this->numCompte;
+    }
+
+    public function setNumCompte(?Compte $numCompte): self
+    {
+        $this->numCompte = $numCompte;
 
         return $this;
     }
