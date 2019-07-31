@@ -8,7 +8,12 @@ class ApplicationControllerTest extends WebTestCase
 {
     public function testpartOk()
     {
-        $part = static::createClient();
+        $part = static::createClient([],[
+            'PHP_AUTH_USER' => 'elina',
+            'PHP_AUTH_PW'   => 'marie199'
+
+        ]);
+        
         $crawler = $part->request('POST', '/api/part',[],[],
         ['CONTENT_TYPE'=>"application/json"],
         '{"mat":"mame1994","ninea":"amyguediawaye","rs":"ag4","rc":"mag2"}',
